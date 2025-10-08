@@ -30,22 +30,12 @@ jobs:
         run: |
           python -m pytest tests/ -v --tb=short
 
-      - name: 🚀 Деплой на продуктовый сервер (через SSH)
-        if: success()
+      - name: Simple deploy
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           echo "🚀 Starting deployment..."
-          
-          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no \
-            ${SSH_USER}@${SSH_HOST} "
-            set -e
-            echo '📁 Current directory:'
-            pwd
-          
-            echo '🔁 Pulling latest code...'
-            cd ~/myapp
-            git pull origin main
-            echo "✅ Деплой завершён: \$(date)" >> deploy.log
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "cd ~/myapp && git pull origin main"
+          echo "✅ Deployment completed"
