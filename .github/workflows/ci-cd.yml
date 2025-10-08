@@ -12,11 +12,6 @@ jobs:
       - name: 🔹 Checkout кода
         uses: actions/checkout@v4
 
-      - name: Add known hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H 192.168.1.105 >> ~/.ssh/authorized_keys
-
       - name: 🐍 Установка Python
         uses: actions/setup-python@v5
         with:
@@ -34,16 +29,9 @@ jobs:
         if: success()
         uses: appleboy/ssh-action@v1.0.2
         with:
-          host: 192.168.1.105
-          username: vboxuser
-          key: |
-            -----BEGIN OPENSSH PRIVATE KEY-----
-            b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-            QyNTUxOQAAACC/HX3DcK9f3D7qUKBwMiqx3Yq8Vo4iCTBERf/GGUrfdQAAAJDsJJaL7CSW
-            iwAAAAtzc2gtZWQyNTUxOQAAACC/HX3DcK9f3D7qUKBwMiqx3Yq8Vo4iCTBERf/GGUrfdQ
-            AAAEAtuYZtZOOLk/YY8H16jc3cKxHYOyno+p/ejDFzBuvHNb8dfcNwr1/cPupQoHAyKrHd
-            irxWjiIJMERF/8YZSt91AAAADGNpLWNkQGdpdGh1YgE=
-            -----END OPENSSH PRIVATE KEY-----
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/myapp
             git pull origin main
