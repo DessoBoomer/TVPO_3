@@ -1,0 +1,38 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci-cd-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔹 Checkout кода
+        uses: actions/checkout@v4
+
+      - name: 🐍 Установка Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 📦 Установка зависимостей
+        run: |
+          pip install -r requirements.txt
+
+      - name: 🧪 Запуск тестов
+        run: |
+          python -m pytest tests/ -v --tb=short
+
+      - name: 🚀 Деплой на продуктовый сервер (через SSH)
+        if: success()
+        uses: appleboy/ssh-action@v1.0.2
+        with:
+          host: 192.168.1.105
+          username: vboxuser
+          key: "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAJhK1NUiStTVIgAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAEBve015ndsrsKWdYOaiJdAP8IZcEgeXfmOcPv9PwXnFh2AwbAspqphAGGCy1v2lXGNMFakIyIR03MXGxYIbB45kAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ=="
+          script: |
+            cd ~/myapp/personal-finance-calculator
+            git pull origin main
+            echo "✅ Деплой завершён: $(date)" >> deploy.log
