@@ -7,7 +7,7 @@ on:
 
 jobs:
   ci-cd-deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: 🔹 Checkout кода
         uses: actions/checkout@v4
@@ -27,7 +27,18 @@ jobs:
 
       - name: 🚀 Деплой на продуктовый сервер (через SSH)
         if: success()
-        run: |
+        uses: appleboy/ssh-action@v1.0.2
+        with:
+          host: 192.168.1.105
+          username: vboxuser
+          key: |
+            -----BEGIN OPENSSH PRIVATE KEY-----
+            b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+            QyNTUxOQAAACC/HX3DcK9f3D7qUKBwMiqx3Yq8Vo4iCTBERf/GGUrfdQAAAJDsJJaL7CSW
+            iwAAAAtzc2gtZWQyNTUxOQAAACC/HX3DcK9f3D7qUKBwMiqx3Yq8Vo4iCTBERf/GGUrfdQ
+            AAAEAtuYZtZOOLk/YY8H16jc3cKxHYOyno+p/ejDFzBuvHNb8dfcNwr1/cPupQoHAyKrHd
+            irxWjiIJMERF/8YZSt91AAAADGNpLWNkQGdpdGh1YgE=
+            -----END OPENSSH PRIVATE KEY-----
           script: |
             cd ~/myapp
             git pull origin main
