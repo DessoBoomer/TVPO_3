@@ -28,6 +28,6 @@ jobs:
 
       - name: Deploy
         run: |
-          cd ~/myapp
+          cd ~/myapp1
           git pull origin main
           echo "✅ Deployed from local runner"
