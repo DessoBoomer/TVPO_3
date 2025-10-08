@@ -31,7 +31,9 @@ jobs:
         with:
           host: 192.168.1.105
           username: vboxuser
-          key: "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAJhK1NUiStTVIgAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAEBve015ndsrsKWdYOaiJdAP8IZcEgeXfmOcPv9PwXnFh2AwbAspqphAGGCy1v2lXGNMFakIyIR03MXGxYIbB45kAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ=="
+          key: |-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAJhK1NUiStTVIgAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAEBve015ndsrsKWdYOaiJdAP8IZcEgeXfmOcPv9PwXnFh2AwbAspqphAGGCy1v2lXGNMFakIyIR03MXGxYIbB45kAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ==
+-----END OPENSSH PRIVATE KEY-----
           script: |
             cd ~/myapp/personal-finance-calculator
             git pull origin main
