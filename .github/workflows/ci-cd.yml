@@ -27,12 +27,20 @@ jobs:
 
       - name: 🚀 Деплой на продуктовый сервер (через SSH)
         if: success()
-        uses: appleboy/ssh-action@v1.0.2
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ~/myapp
-            git pull origin main
-            echo "✅ Деплой завершён: $(date)" >> deploy.log
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          run: |
+            echo "🚀 Starting deployment..."
+            
+            sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no \
+              ${SSH_USER}@${SSH_HOST} "
+              set -e
+              echo '📁 Current directory:'
+              pwd
+            
+              echo '🔁 Pulling latest code...'
+              cd ~/myapp
+              git pull origin main
+              echo "✅ Деплой завершён: $(date)" >> deploy.log
