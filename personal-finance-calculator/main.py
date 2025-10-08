@@ -34,5 +34,5 @@ def main():
         else:
             print("⚠️ Неверный выбор")
 
-if name == "main":
+if __name__ == "__main__":
     main()
