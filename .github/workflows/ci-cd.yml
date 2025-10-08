@@ -12,6 +12,11 @@ jobs:
       - name: 🔹 Checkout кода
         uses: actions/checkout@v4
 
+      - name: Add known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 192.168.1.105 >> ~/.ssh/authorized_keys
+
       - name: 🐍 Установка Python
         uses: actions/setup-python@v5
         with:
