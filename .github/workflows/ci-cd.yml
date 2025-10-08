@@ -7,15 +7,11 @@ on:
 
 jobs:
   ci-cd-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+
     steps:
       - name: 🔹 Checkout кода
         uses: actions/checkout@v4
-
-      - name : Install sshpass
-        run: |
-          echo "🔧 Installing sshpass..."
-          sudo apt-get update && sudo apt-get install -y sshpass
 
       - name: 🐍 Установка Python
         uses: actions/setup-python@v5
@@ -30,12 +26,8 @@ jobs:
         run: |
           python -m pytest tests/ -v --tb=short
 
-      - name: Simple deploy
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+      - name: Deploy
         run: |
-          echo "🚀 Starting deployment..."
-          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "cd ~/myapp && git pull origin main"
-          echo "✅ Deployment completed"
+          cd ~/myapp
+          git pull origin main
+          echo "✅ Deployed from local runner"
