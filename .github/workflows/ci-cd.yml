@@ -48,4 +48,4 @@ jobs:
             echo '🔁 Pulling latest code...'
             cd ~/myapp
             git pull origin main
-            echo "✅ Деплой завершён: $(date)" >> deploy.log
+            echo "✅ Деплой завершён: \$(date)" >> deploy.log
