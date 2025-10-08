@@ -7,7 +7,7 @@ on:
 
 jobs:
   ci-cd-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: 🔹 Checkout кода
         uses: actions/checkout@v4
@@ -27,14 +27,8 @@ jobs:
 
       - name: 🚀 Деплой на продуктовый сервер (через SSH)
         if: success()
-        uses: appleboy/ssh-action@v1.0.2
-        with:
-          host: 192.168.1.105
-          username: vboxuser
-          key: |-----BEGIN OPENSSH PRIVATE KEY-----
-b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAJhK1NUiStTVIgAAAAtzc2gtZWQyNTUxOQAAACBgMGwLKaqYQBhgstb9pVxjTBWpCMiEdNzFxsWCGweOZAAAAEBve015ndsrsKWdYOaiJdAP8IZcEgeXfmOcPv9PwXnFh2AwbAspqphAGGCy1v2lXGNMFakIyIR03MXGxYIbB45kAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ==
------END OPENSSH PRIVATE KEY-----
+        run: |
           script: |
-            cd ~/myapp/personal-finance-calculator
+            cd ~/myapp
             git pull origin main
             echo "✅ Деплой завершён: $(date)" >> deploy.log
