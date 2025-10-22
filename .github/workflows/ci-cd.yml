@@ -6,28 +6,36 @@ on:
       - main
 
 jobs:
-  ci-cd-deploy:
+  test:
     runs-on: self-hosted
-
     steps:
-      - name: 🔹 Checkout кода
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 🐍 Установка Python
+      - name: Установка Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 📦 Установка зависимостей
+      - name: Установка зависимостей
         run: |
           pip install -r requirements.txt
 
-      - name: 🧪 Запуск тестов
+      - name: Запуск тестов
         run: |
           python -m pytest tests/ -v --tb=short
+  deploy:
+     name: Deploy
+     needs: test
+     if: success()
+     runs-on: self-hosted
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v3
 
-      - name: Deploy
-        run: |
-          cd /home/vboxuser/myapp1
-          git pull origin main
-          echo "✅ Deployed from local runner"
+       - name: Set up SSH
+         run: |
+           mkdir -p ~/.ssh
+           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+           chmod 600 ~/.ssh/id_ed25519
+           ssh-keyscan -H 192.168.0.116 >> ~/.ssh/known_hosts
