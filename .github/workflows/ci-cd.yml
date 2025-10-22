@@ -41,5 +41,5 @@ jobs:
            key: ${{ secrets.SSH_PRIVATE_KEY }}
            port: 22
            script: |
-             cd /home/vboxuser/myapp
+             cd /home/vboxuser/myapp1
              git pull origin main
