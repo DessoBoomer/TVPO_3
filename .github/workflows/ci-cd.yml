@@ -43,4 +43,3 @@ jobs:
            script: |
              cd /home/vboxuser/myapp
              git pull origin main
-             python3 main.py
