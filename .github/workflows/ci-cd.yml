@@ -35,5 +35,5 @@ jobs:
 
        - name: Deploy to production server
          run: |
-           cd /home/vboxuser/myapp1
+           cd /home/vboxuser/myapp
            git pull origin main
