@@ -34,8 +34,13 @@ jobs:
          uses: actions/checkout@v3
 
        - name: Set up SSH
-         run: |
-           mkdir -p ~/.ssh
-           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-           chmod 600 ~/.ssh/id_ed25519
-           ssh-keyscan -H 192.168.0.116 >> ~/.ssh/known_hosts
+         uses: appleboy/ssh-action@v1.2.2
+         with:
+           host: ${{ secrets.SSH_HOST }}
+           username: ${{ secrets.SSH_USER }}
+           key: ${{ secrets.SSH_PRIVATE_KEY }}
+           port: 22
+           script: |
+             cd /home/vboxuser/myapp
+             git pull origin main
+             python3 main.py
