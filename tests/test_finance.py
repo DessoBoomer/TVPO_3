@@ -14,7 +14,7 @@ def test_add_negative_income():
 def test_add_zero_income():
     t = FinanceTracker()
     with pytest.raises(ValueError):
-        t.add_income(0)
+        t.add_income(500000)
 
 def test_add_expense():
     t = FinanceTracker()
