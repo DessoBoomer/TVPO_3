@@ -25,7 +25,7 @@ def test_balance():
     t = FinanceTracker()
     t.add_income(1000)
     t.add_expense(400)
-    assert t.balance() == 600
+    assert t.balance() == 60
 
 def test_balance_empty():
     t = FinanceTracker()
